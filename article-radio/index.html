@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+	<title>Custom Radio Button on CSS3 without JavaScript</title>
+	
+	<link href="css/index.css" type="text/css" rel="stylesheet" />
+	
+	<script type="text/javascript" src="js/shCore.js"></script>
+	<script type="text/javascript" src="js/shBrushJScript.js"></script>
+    <script type="text/javascript" src="js/shBrushCss.js"></script>
+    <script type="text/javascript" src="js/shBrushXml.js"></script>
+	
+	<link href="css/shCore.css" rel="stylesheet" type="text/css" />
+	<link href="css/shCoreDefault.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="js/prototype.js"></script>
+    <!--<script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>-->
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <!-- Custom Radio Styles -->
+    <link href="../custom-radio/default.css" type="text/css" rel="stylesheet" />
+    <!--<link href="../custom-radio/green.css" type="text/css" rel="stylesheet" />-->
+
+</head>
+
+<body>
+<div class="wrapper">
+
+	<h1>Custom radio button</h1>
+	<div class="author">by Artem Deykun <br />artem@ecomdev.org</div>
+	
+	<p>We produce you our general solution of creating radio button.</p>
+	
+	<h2>Style radio buttons in form with CSS3</h2>
+	
+	<p>Solution for creating custom radio buttons without javascript for this construction of HTML layout:</p>
+
+	<pre class="brush: js; gutter: false; toolbar:false">
+		&lt;input id="check1" type="radio">&lt;label for="check1">Radio 1&lt;/label>
+	</pre>
+	
+	<p>Main idea is to hide default button and show image in label background. <br />
+	You can implement custom design to all radio buttons on the page using this CSS stylesheet.</p>
+
+    <pre class="brush: css; gutter: true; toolbar:false">
+        input[type="radio"] {
+            opacity: 0;
+            position:absolute;
+        }
+        input[type="radio"] + label::before,
+        input[type="radio"] + .custom-tick::before {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+
+            margin: 0 5px 5px 0;
+
+            line-height: 14px;
+            content: "";
+            vertical-align: middle;
+
+            background-image: url('custom-radio.png');
+            background-repeat: no-repeat;
+            background-position: 0 -14px;
+        }
+        input[type="radio"] + .custom-tick::before {
+            margin-right:4px;
+        }
+        input[type="radio"]:disabled + label,
+        input[type="radio"]:disabled + .custom-tick{
+            opacity: 0.5;
+            cursor: default;
+        }
+        input[type="radio"]:disabled:not(:checked) + label::before {
+            background-position: 0 -42px;
+        }
+        input[type="radio"]:checked:disabled + label::before {
+            background-position: 0 -56px;
+        }
+        input[type="radio"]:not(:checked):not(:disabled):hover + label:before,
+        input[type="radio"]:not(:checked):not(:disabled):hover + .custom-tick:before {
+            background-position: 0 -28px;
+        }
+        input[type="radio"]:checked + label:before,
+        input[type="radio"]:checked + .custom-tick:before {
+            background-position: 0 0;
+        }
+    </pre>
+
+    <p>Exactly this CSS stylesheet I use on this page, so you can see demo:</p>
+
+    <div class="test">You can test in different styles: <span class="" id="green">Green</span> <span class="" id="red">Red</span> <span class="" id="grey">Grey</span></div>
+	<div class="radio-style_1" id="test-zone">
+		<div>
+			<input id="radio1" type="radio" name="test1"><label for="radio1">Radio 1</label>
+			<input id="radio2" type="radio" name="test1" ><label for="radio2">Radio 2</label>
+			<input id="radio3" type="radio" name="test1" checked><label for="radio3">Radio 3</label>
+		</div>
+		<div>
+			<input id="radio4" type="radio" name="test2" checked><label for="radio4">Radio 4</label>
+			<input id="radio5" type="radio" name="test2"><label for="radio5">Radio 5</label>
+			<input id="radio6" type="radio" name="test2"><label for="radio6">Radio 6</label>
+		</div>
+        <div>
+            <input id="radio7" type="radio" checked name="test3"><label for="radio7">Radio 7</label>
+            <input id="radio8" type="radio" name="test3"><label for="radio8">Radio 8</label>
+            <input id="radio9" type="radio" name="test3"><label for="radio9">Radio 9</label>
+        </div>
+	</div>
+
+    <p>Looks great, isn't it? But let me show a dark side of this method.</p>
+    <p>As you know exist another rule of writing construction with label and input: when label wrap input, like this:</p>
+
+    <pre class="brush: js; gutter: false; toolbar:false">
+		<label for="check2"><input id="check2" type="radio"> Radio 1</label>
+	</pre>
+
+    <p>In this case our method described upper will not be useful, but even css style is applied to this page inputs will be shown correctly but with no custom styles.</p>
+
+    <div class="radio-style_2" id="test-zone2">
+        <div>
+            <label for="radio10"><input id="radio10" type="radio" name="test4"> Radio 1 </label>
+            <label for="radio11"><input id="radio11" type="radio" name="test4" > Radio 2</label>
+            <label for="radio12"><input id="radio12" type="radio" name="test4" checked> Radio 3</label>
+        </div>
+        <div>
+            <label for="radio13"><input id="radio13" type="radio" name="test5" checked> Radio 4</label>
+            <label for="radio14"><input id="radio14" type="radio" name="test5"> Radio 5</label>
+            <label for="radio15"><input id="radio15" type="radio" name="test5"> Radio 6</label>
+        </div>
+        <div>
+            <label for="radio16"><input id="radio16" type="radio" checked name="test6"> Radio 7</label>
+            <label for="radio17"><input id="radio17" type="radio" name="test6"> Radio 8</label>
+            <label for="radio18"><input id="radio18" type="radio" name="test6"> Radio 9</label>
+        </div>
+    </div>
+
+    <p>Custom styles for this method we can apply just using some rows jquery or prototype script and modify css stylesheet</p>
+
+    <h3>Prototype Framework</h3>
+
+    <pre class="brush: js; gutter: true; toolbar:false">
+    $$("input[type=radio]").each(function(el){
+        if (el.up("label")) {
+            el.up("label").addClassName("custom-radio-label").down("input[type=radio]").insert({
+                after: "<span class='custom-tick'></span>"
+            });
+        }
+    });</pre>
+
+    <h3>jQuery</h3>
+
+    <pre class="brush: js; gutter: true; toolbar:false">
+	$(document).ready(function() {
+        var custom_radio_label = $("#test-zone3 input[type=radio]").parent("label");
+        custom_radio_label.addClass("custom-radio-label");
+        $("<span class='custom-tick'></span>").insertAfter(custom_radio_label.children("input[type=radio]"));
+    });</pre>
+
+    <p>Use only one script on jquery or prototype.</p>
+    <p>And we got result with "label wrapped" construction:</p>
+
+    <div class="radio-style_3" id="test-zone3">
+        <div>
+            <input id="radio19" type="radio" name="test7"><label for="radio19">Radio 1</label>
+            <input id="radio20" type="radio" name="test7" ><label for="radio20">Radio 2</label>
+            <input id="radio21" type="radio" name="test7" checked><label for="radio21">Radio 3</label>
+        </div>
+        <div>
+            <input id="radio22" type="radio" name="test8" checked><label for="radio22">Radio 4</label>
+            <input id="radio23" type="radio" name="test8"><label for="radio23">Radio 5</label>
+            <input id="radio24" type="radio" name="test8"><label for="radio24">Radio 6</label>
+        </div>
+        <div>
+            <input id="radio25" type="radio" checked name="test9"><label for="radio25">Radio 7</label>
+            <input id="radio26" type="radio" name="test9"><label for="radio26">Radio 8</label>
+            <input id="radio27" type="radio" name="test9"><label for="radio27">Radio 9</label>
+        </div>
+    </div>
+
+    <p>The best standard is the first case, so if you don't use wrapped construction you don't need use this script on javascript.</p>
+
+    <h2>Step by Step</h2>
+
+    <p>Instruction how to use custom stylesheet and to make more universal solution on your web-site you should follow next steps.</p>
+
+    <ol>
+        <li>
+            <p>Include JS script and CSS stylesheet in <strong>head</strong> tag.
+            <p>Script on Prototype - <a href="#">radio-css3-prototype.js</a></p>
+            <pre class="brush: xml; gutter: false; toolbar:false">
+                &lt;script type="text/javascript" src="js/prototype.js">&lt;/script>
+                &lt;script type="text/javascript" src="js/radio-css3-prototype.js">&lt;/script>
+            </pre>
+            <p>Script on jQuery - <a href="#">radio-css3-jquery.js</a></p>
+            <pre class="brush: xml; gutter: false; toolbar:false">
+                &lt;script type="text/javascript" src="js/jquery.js">&lt;/script>
+                &lt;script type="text/javascript" src="js/radio-css3-jquery.js">&lt;/script>
+            </pre>
+
+            <p>Default stylesheet and customized your own theme (in example: custom).</p>
+
+            <pre class="brush: xml; gutter: false; toolbar:false">
+                &lt;link href="custom-radio/default.css" type="text/css" rel="stylesheet" />
+                &lt;link href="custom-radio/custom.css" type="text/css" rel="stylesheet" />
+            </pre>
+
+        </li>
+        <li>
+            <p>To create a new radio sprite you can use <a href="#">PSD file</a>. <br />
+            You can create it by yourself divided in 5 parts vertical positional like in the <span class="spoiler" id="psd_example">example</span>.</p>
+
+            <p id="psd_example_show" style="display: none;">
+                <img src="images/psdexample.png" alt="" />
+            </p>
+
+        </li>
+        <li>
+            <p>In stylesheet custom.css you need to adjust sizes and backgrounds.</p>
+            <p>If you used presented PSD file and didn't change sizes it will be enough set just background:</p>
+            <pre class="brush: css; gutter: true; toolbar:false">
+                input[type="radio"] + label::before {
+                    background: url('../images/custom_radio-green.png') no-repeat 0 -14px; /* 14px - is a height of radio-button */
+                }
+            </pre>
+            <p>If the sizes was changed then you need to redefined them in custom file:</p>
+            <pre class="brush: css; gutter: true; toolbar:false; first-line:4">
+                input[type="radio"] + label::before {
+                    width: 14px; /* The width of radio-button due to your sprite */
+                    height: 14px; /* The height of radio-button due to your sprite */
+                }
+
+                input[type="radio"]:not(:checked):not(:disabled):hover + label::before,
+                input[type="radio"]:not(:checked):not(:disabled):hover + .custom-tick::before {
+                    background-position: 0 -28px; /* 28 is a distance from the top to hovered radio-button */
+                }
+
+                input[type="radio"]:disabled:not(:checked) + label::before,
+                input[type="radio"]:disabled:not(:checked) + label::before{
+                    background-position: 0 -42px; /* 42 is a distance from the top to the disabled radio-button */
+                }
+                input[type="radio"]:checked:disabled + label::before {
+                    background-position: 0 -56px; /* 56 is a distance from the top to the disabled checked radio-button */
+                }
+            </pre>
+        </li>
+        <li>
+            Test in different browsers. As you already know, styles applied in browsers IE9+, Firefox 4+, Opera 10+, Safari 3+.<br />
+            In browsers which not support CSS3 radio-buttons will be shown as default.
+        </li>
+    </ol>
+
+	<div class="ecomdev"></div>
+</div>
+<script type="text/javascript">
+     SyntaxHighlighter.all();
+</script>
+</body>
+</html>

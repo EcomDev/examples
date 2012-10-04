@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+	<title>Custom Radio Button on CSS3 without JavaScript</title>
+	
+	<link href="css/index.css" type="text/css" rel="stylesheet" />
+	
+	<script type="text/javascript" src="js/shCore.js"></script>
+	<script type="text/javascript" src="js/shBrushJScript.js"></script>
+    <script type="text/javascript" src="js/shBrushCss.js"></script>
+    <script type="text/javascript" src="js/shBrushXml.js"></script>
+	
+	<link href="css/shCore.css" rel="stylesheet" type="text/css" />
+	<link href="css/shCoreDefault.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="js/prototype.js"></script>
+    <!--<script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>-->
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <!-- Custom Radio Styles -->
+    <link href="../custom-checkbox/default.css" type="text/css" rel="stylesheet" />
+
+</head>
+
+<body>
+<div class="wrapper">
+
+	<h1>Custom dropdown list</h1>
+	<div class="author">by Artem Deykun <br />artem@ecomdev.org</div>
+
+    <p>Solution for creating custom dropdown list without javascript for this construction of HTML layout:</p>
+
+	<pre class="brush: xml; gutter: false; toolbar:false">
+        <div class="custom-select">
+            <select name="test">
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="2">Option 3</option>
+                <option value="3">Option 4</option>
+            </select>
+        </div>
+	</pre>
+
+    <p>Main idea is to make the background select element be transparent and style the div which will wrap it.</p>
+    <p>But if you even made background transparent - arrow of dropdown list will not disappear until you will not
+    overrule select tag as a real element of form with CSS property: appearance.</p>
+    <p>And here the first problems - property apearance for select tag has bug in Firefox. Hope that in future it will
+    be fixed but now it make impossible to solve the task in CSS3 correctly.</p>
+
+	<p>We produce you our 3 general solution of creating custom dropdown list.</p>
+
+    <ul>
+        <li><a href="#">Method 1 - CSS3 just for Safari and Chrome</a></li>
+        <li><a href="#">Method 2 - CSS3 with static width</a></li>
+        <li><a href="#">Method 3 - CSS3, JS</a></li>
+    </ul>
+
+    <p>Every method is lightweight and will not confilct with any scripts in your form or methods of validations.</p>
+	
+	<h2>Method 1 - CSS3 just for Safari and Chrome</h2>
+
+    <pre class="brush: css; gutter: true; toolbar:false">
+        @media screen and (-webkit-min-device-pixel-ratio:0) {
+            .custom-select {
+                display: inline-block;
+
+                vertical-align: middle;
+
+                background-color: #fff;
+                background-image: url(arrow.png);
+                background-repeat:no-repeat;
+                background-position: 100% 50%;
+
+                border: 1px solid #e3dfdc;
+            }
+            .custom-select select {
+                padding: 3px 0 3px 4px;
+
+                background: transparent;
+                border: 0;
+                outline: none;
+
+                -webkit-appearance: none;
+            }
+        }
+    </pre>
+
+    <p><strong>Demo:</strong></p>
+
+    <div class="select-style_1" id="test-zone">
+        <p><div class="custom-select">
+            <select name="test-1">
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="2">Option 3</option>
+                <option value="3">Option 4</option>
+            </select>
+        </div></p>
+        <p><div class="custom-select">
+        <select name="test-3">
+            <option value="1">It must be very large example select for demo version - Option 1</option>
+            <option value="2">It must be very large example select for demo version - Option 2</option>
+            <option value="2">It must be very large example select for demo version - Option 3 - Hmm... what about this line will be wider?</option>
+            <option value="3">It must be very large example select for demo version - Option 4</option>
+        </select>
+        </div></p>
+        <p><div class="custom-select">
+            <select name="test-2">
+                <option value="1">One more option 1</option>
+                <option value="2">One more option 1</option>
+                <option value="2">One more option 1</option>
+                <option value="3">One more option 1</option>
+            </select>
+        </div></p>
+    </div>
+
+    <p>In demo you can spectate custom selects just for browsers which support web-kit <br />
+    In all others we will have correctly displayed default selects.</p>
+
+    <h2>Method 2 - CSS3 with static width</h2>
+
+    <p>If it is able to control width of every select, than it is possible to solve the task for the most modern browsers easily.</p>
+
+     <pre class="brush: css; gutter: true; toolbar:false">
+            .custom-select {
+                display: inline-block;
+                width:420px;
+
+                vertical-align: middle;
+
+                background-color: #fff;
+                background-image: url('select.png');
+                background-repeat:no-repeat;
+                background-position: 100% 50%;
+
+                border: 1px solid #e3dfdc;
+            }
+            .custom-select select {
+                padding: 3px 45px 3px 4px;
+                width:437px;
+
+                background: transparent;
+                border: 0;
+                outline: none;
+
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+            }
+
+    </pre>
+
+    <p><strong>Demo:</strong></p>
+
+    <div class="select-style_2">
+        <p><div class="custom-select">
+        <select name="test-1">
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="2">Option 3</option>
+            <option value="3">Option 4</option>
+        </select>
+    </div></p>
+        <p><div class="custom-select">
+        <select name="test-3">
+            <option value="1">It must be very large example select for demo version - Option 1</option>
+            <option value="2">It must be very large example select for demo version - Option 2</option>
+            <option value="2">It must be very large example select for demo version - Option 3 - Hmm... what about this line will be wider?</option>
+            <option value="3">It must be very large example select for demo version - Option 4</option>
+        </select>
+    </div></p>
+        <p><div class="custom-select">
+        <select name="test-2">
+            <option value="1">One more option 1</option>
+            <option value="2">One more option 2</option>
+            <option value="2">One more option 3</option>
+            <option value="3">One more option 4</option>
+        </select>
+    </div></p>
+    </div>
+
+    <p><strong>The formula:</strong></p>
+    <p class="formula"><img src="images/formula.png" /></p>
+    <p>
+        The width of <strong>.custom-select</strong> is equal to width of default select style - <strong>680px</strong>. <br />
+        The width of <strong>.custom-select select</strong> is equal to width of default select style + width of default arrow - <strong>680 + 25px</strong><br />
+    </p>
+
+    <p>Mention, that sizes of default styles in different browsers not equal, so test in all and take the maximum.
+    Sometimes, to be sure you can plus 2-4 pixels for the calculated value.</p>
+
+    <h2>Method 3 - CSS3, JS</h2>
+    <p>Writing small JavaScript script on jQuery or Prototype we solve this task for browsers IE 8+, Firefox, Chrome, Opera.</p>
+
+    <p>In <strong>Prototype</strong>:</p>
+    <pre class="brush: js;  gutter: true; toolbar:false">
+        $$(".custom-select").each(function(el){
+            el.setStyle({width:el.getWidth()+30+'px'});
+            el.down('select').setStyle({width: el.getWidth() + 60 + 'px'});
+        });
+    </pre>
+
+    <!--<p>In <strong>jQuery</strong>:</p>
+    <pre class="brush: js;  gutter: true; toolbar:false">
+        $$(".custom-select").each(function(el){
+            el.setStyle({width:el.getWidth()+30+'px'});
+            el.down('select').setStyle({width: el.getWidth() + 60 + 'px'});
+        });
+    </pre> -->
+
+    <p><strong>CSS</strong> stylesheet is the similar to the previous methods but without width properties:</p>
+
+    <pre class="brush: css; gutter: true; toolbar:false">
+            .custom-select {
+                display: inline-block;
+
+                vertical-align: middle;
+
+                background-color: #fff;
+                background-image: url('select.png');
+                background-repeat:no-repeat;
+                background-position: 100% 50%;
+
+                border: 1px solid #e3dfdc;
+            }
+            .custom-select select {
+                padding: 3px 45px 3px 4px;
+
+                background: transparent;
+                border: 0;
+                outline: none;
+
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+            }
+    </pre>
+
+    <p><strong>Demo:</strong></p>
+
+    <div class="select-style_3">
+        <p><div class="custom-select">
+        <select name="test-1">
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="2">Option 3</option>
+            <option value="3">Option 4</option>
+        </select>
+    </div></p>
+        <p><div class="custom-select">
+        <select name="test-3">
+            <option value="1">It must be very large example select for demo version - Option 1</option>
+            <option value="2">It must be very large example select for demo version - Option 2</option>
+            <option value="2">It must be very large example select for demo version - Option 3 - Hmm... what about this line will be wider?</option>
+            <option value="3">It must be very large example select for demo version - Option 4</option>
+        </select>
+    </div></p>
+        <p><div class="custom-select">
+        <select name="test-2">
+            <option value="1">One more option 1</option>
+            <option value="2">One more option 2</option>
+            <option value="2">One more option 3</option>
+            <option value="3">One more option 4</option>
+        </select>
+    </div></p>
+    </div>
+
+	<div class="ecomdev"></div>
+</div>
+<script type="text/javascript">
+     SyntaxHighlighter.all();
+</script>
+</body>
+</html>
+

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+	<title>Custom Radio Button on CSS3 without JavaScript</title>
+	
+	<link href="css/index.css" type="text/css" rel="stylesheet" />
+	
+	<script type="text/javascript" src="js/shCore.js"></script>
+	<script type="text/javascript" src="js/shBrushJScript.js"></script>
+    <script type="text/javascript" src="js/shBrushCss.js"></script>
+    <script type="text/javascript" src="js/shBrushXml.js"></script>
+	
+	<link href="css/shCore.css" rel="stylesheet" type="text/css" />
+	<link href="css/shCoreDefault.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="js/prototype.js"></script>
+    <!--<script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>-->
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <!-- Custom Radio Styles -->
+    <link href="../custom-checkbox/default.css" type="text/css" rel="stylesheet" />
+
+</head>
+
+<body>
+<div class="wrapper">
+
+	<h1>Custom checkbox</h1>
+	<div class="author">by Artem Deykun <br />artem@ecomdev.org</div>
+	
+	<p>We produce you our general solution of creating custom checkbox.</p>
+	
+	<h2>Style custom checkbox in form with CSS3</h2>
+	
+	<p>Solution for creating custom checkbox buttons without javascript for this construction of HTML layout:</p>
+
+	<pre class="brush: js; gutter: false; toolbar:false">
+		&lt;input id="check1" type="checkbox">&lt;label for="check1">Checkbox 1&lt;/label>
+	</pre>
+	
+	<p>Main idea is to hide default button and show image in label background. <br />
+	You can implement custom design to all checkboxes on the page using this CSS stylesheet.</p>
+
+    <pre class="brush: css; gutter: true; toolbar:false">
+        input[type="checkbox"] {
+            opacity: 0;
+            position:absolute;
+        }
+        input[type="checkbox"] + label::before,
+        input[type="checkbox"] + .custom-tick::before {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+
+            margin: 0 5px 5px 0;
+
+            line-height: 14px;
+            content: "";
+            vertical-align: middle;
+
+            background-image: url(checkbox.png);
+            background-repeat: no-repeat;
+            background-position: 0 -14px;
+        }
+        input[type="checkbox"] + .custom-tick::before {
+            margin-right:4px;
+        }
+        input[type="checkbox"]:disabled + label,
+        input[type="checkbox"]:disabled + .custom-tick{
+            opacity: 0.5;
+            cursor: default;
+        }
+        input[type="checkbox"]:disabled:not(:checked) + label::before {
+            background-position: 0 -42px;
+        }
+        input[type="checkbox"]:checked:disabled + label::before {
+            background-position: 0 -56px;
+        }
+        input[type="checkbox"]:not(:checked):not(:disabled):hover + label:before,
+        input[type="checkbox"]:not(:checked):not(:disabled):hover + .custom-tick:before {
+            background-position: 0 -28px;
+        }
+        input[type="checkbox"]:checked + label:before,
+        input[type="checkbox"]:checked + .custom-tick:before {
+            background-position: 0 0;
+        }
+    </pre>
+
+    <p>Exactly this CSS stylesheet I use on this page, so you can see demo:</p>
+
+    <div class="test">You can test in different styles: <span class="" id="green">Green</span> <span class="" id="grey">Grey</span></div>
+    <div class="checkbox-style_1" id="test-zone">
+        <div>
+            <input id="checkbox1" type="checkbox"><label for="checkbox1">Checkbox 1</label>
+            <input id="checkbox2" type="checkbox" disabled><label for="checkbox2">Checkbox 2</label>
+            <input id="checkbox3" type="checkbox" checked><label for="checkbox3">Checkbox 3</label>
+        </div>
+        <div>
+            <input id="checkbox4" type="checkbox" checked disabled><label for="checkbox4">Checkbox 4</label>
+            <input id="checkbox5" type="checkbox"><label for="checkbox5">Checkbox 5</label>
+            <input id="checkbox6" type="checkbox"><label for="checkbox6">Checkbox 6</label>
+        </div>
+        <div>
+            <input id="checkbox7" type="checkbox" checked disabled><label for="checkbox7">Checkbox 7</label>
+            <input id="checkbox8" type="checkbox"><label for="checkbox8">Checkbox 8</label>
+            <input id="checkbox9" type="checkbox"><label for="checkbox9">Checkbox 9</label>
+        </div>
+    </div>
+
+    <p>Looks great, isn't it? But let me show a dark side of this method.</p>
+    <p>As you know exist another rule of writing construction with label and input: when label wrap input, like this:</p>
+
+    <pre class="brush: js; gutter: false; toolbar:false">
+		<label for="check2"><input id="check2" type="checkbox"> Checkbox 1</label>
+	</pre>
+
+    <p>In this case our method described upper will not be useful, but even css style is applied to this page inputs will be shown correctly but with no custom styles.</p>
+
+    <div class="checkbox-style_2" id="test-zone2">
+        <div>
+            <label><input type="checkbox">Checkbox 1</label>
+            <label><input type="checkbox" disabled>Checkbox 2</label>
+            <label><input type="checkbox" checked>Checkbox 3</label>
+        </div>
+        <div>
+            <label><input type="checkbox" checked disabled>Checkbox 4</label>
+            <label><input type="checkbox">Checkbox 5</label>
+            <label><input type="checkbox">Checkbox 6</label>
+        </div>
+        <div>
+            <label><input type="checkbox" checked disabled>Checkbox 7</label>
+            <label><input type="checkbox">Checkbox 8</label>
+            <label><input type="checkbox">Checkbox 9</label>
+        </div>
+    </div>
+
+    <p>Custom styles for this method we can apply just using some rows jquery or prototype script and modify css stylesheet</p>
+
+    <h3>Prototype Framework</h3>
+
+    <pre class="brush: js; gutter: true; toolbar:false">
+    $$("input[type=checkbox]").each(function(el){
+        if (el.up("label")) {
+            el.up("label").addClassName("custom-checkbox-label").down("input[type=checkbox]").insert({
+                after: "<span class='custom-tick'></span>"
+            });
+        }
+    });</pre>
+
+    <h3>jQuery</h3>
+
+    <pre class="brush: js; gutter: true; toolbar:false">
+	$(document).ready(function() {
+        var custom_checkbox_label = $("#test-zone3 input[type=checkbox]").parent("label");
+        custom_checkbox_label.addClass("custom-checkbox-label");
+        $("<span class='custom-tick'></span>").insertAfter(custom_checkbox_label.children("input[type=checkbox]"));
+    });</pre>
+
+    <p>Use only one script on jquery or prototype.</p>
+    <p>And we got result with "label wrapped" construction:</p>
+
+    <div class="checkbox-style_3" id="test-zone3">
+        <div>
+            <label><input type="checkbox">Checkbox 1</label>
+            <label><input type="checkbox" disabled>Checkbox 2</label>
+            <label><input type="checkbox" checked>Checkbox 3</label>
+        </div>
+        <div>
+            <label><input type="checkbox" checked disabled>Checkbox 4</label>
+            <label><input type="checkbox">Checkbox 5</label>
+            <label><input type="checkbox">Checkbox 6</label>
+        </div>
+        <div>
+            <label><input type="checkbox" checked disabled>Checkbox 7</label>
+            <label><input type="checkbox">Checkbox 8</label>
+            <label><input type="checkbox">Checkbox 9</label>
+        </div>
+    </div>
+
+    <p>The best standard is the first case, so if you don't use wrapped construction you don't need use this script on javascript.</p>
+
+    <h2>Step by Step</h2>
+
+    <p>Instruction how to use custom stylesheet and to make more universal solution on your web-site you should follow next steps.</p>
+
+    <ol>
+        <li>
+            <p>Include JS script and CSS stylesheet in <strong>head</strong> tag.
+            <p>Script on Prototype - <a href="#">checkbox-css3-prototype.js</a></p>
+            <pre class="brush: xml; gutter: false; toolbar:false">
+                &lt;script type="text/javascript" src="js/prototype.js">&lt;/script>
+                &lt;script type="text/javascript" src="js/checkbox-css3-prototype.js">&lt;/script>
+            </pre>
+            <p>Script on jQuery - <a href="#">checkbox-css3-jquery.js</a></p>
+            <pre class="brush: xml; gutter: false; toolbar:false">
+                &lt;script type="text/javascript" src="js/jquery.js">&lt;/script>
+                &lt;script type="text/javascript" src="js/checkbox-css3-jquery.js">&lt;/script>
+            </pre>
+
+            <p>Default stylesheet and customized your own theme (in example: custom).</p>
+
+            <pre class="brush: xml; gutter: false; toolbar:false">
+                &lt;link href="custom-checkbox/default.css" type="text/css" rel="stylesheet" />
+                &lt;link href="custom-checkbox/custom.css" type="text/css" rel="stylesheet" />
+            </pre>
+
+        </li>
+        <li>
+            <p>To create a new checkbox sprite you can use <a href="#">PSD file</a>. <br />
+            You can create it by yourself divided in 5 parts vertical positional like in the <span class="spoiler" id="psd_example">example</span>.</p>
+
+            <p id="psd_example_show" style="display: none;">
+                <img src="images/psdexample.png" alt="" />
+            </p>
+
+        </li>
+        <li>
+            <p>In stylesheet custom.css you need to adjust sizes and backgrounds.</p>
+            <p>If you used presented PSD file and didn't change sizes it will be enough set just background:</p>
+            <pre class="brush: css; gutter: true; toolbar:false">
+                input[type="checkbox"] + label::before {
+                    background: url('../images/custom_checkbox-green.png') no-repeat 0 -14px; /* 14px - is a height of checkbox */
+                }
+            </pre>
+            <p>If the sizes was changed then you need to redefined them in custom file:</p>
+            <pre class="brush: css; gutter: true; toolbar:false; first-line:4">
+                input[type="checkbox"] + label::before {
+                    width: 14px; /* The width of checkbox-button due to your sprite */
+                    height: 14px; /* The height of checkbox-button due to your sprite */
+                }
+
+                input[type="checkbox"]:not(:checked):not(:disabled):hover + label::before,
+                input[type="checkbox"]:not(:checked):not(:disabled):hover + .custom-tick::before {
+                    background-position: 0 -28px; /* 28 is a distance from the top to hovered checkbox */
+                }
+
+                input[type="checkbox"]:disabled:not(:checked) + label::before,
+                input[type="checkbox"]:disabled:not(:checked) + label::before{
+                    background-position: 0 -42px; /* 42 is a distance from the top to the disabled checkbox */
+                }
+                input[type="checkbox"]:checked:disabled + label::before {
+                    background-position: 0 -56px; /* 56 is a distance from the top to the disabled checked checkbox */
+                }
+            </pre>
+        </li>
+        <li>
+            Test in different browsers. As you already know, styles applied in browsers IE9+, Firefox 4+, Opera 10+, Safari 3+.<br />
+            In browsers which not support CSS3 checkbox will be shown as default.
+        </li>
+    </ol>
+
+	<div class="ecomdev"></div>
+</div>
+<script type="text/javascript">
+     SyntaxHighlighter.all();
+</script>
+</body>
+</html>
